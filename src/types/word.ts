@@ -11,6 +11,14 @@ export interface IWord {
   updated_at: Date;
 }
 
+export type IEditWordBody = Partial<{
+  original: string;
+  translation: string;
+  knowledge: number;
+  relevance: number;
+  isSeen: boolean;
+}>;
+
 export interface IPickDailyWordsReturn {
   seenWords: IWord[];
   unseenWords: IWord[];

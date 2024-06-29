@@ -2,6 +2,7 @@ import "./UnseenWordCard.css";
 import { IWord } from "../../../../types/word";
 import { WordCard } from "../../../../components/WordCard/WordCard";
 import { useState } from "react";
+import { editWord } from "../../../../api/words";
 
 interface ListOfWordsProps {
   word: IWord;
@@ -15,7 +16,8 @@ export const UnseenWordCard = ({ word, handleClickNext }: ListOfWordsProps) => {
     setShowAll(true);
   };
 
-  const handleClickNextInner = () => {
+  const handleClickNextInner = async () => {
+    await editWord(word.id, { isSeen: true });
     handleClickNext();
     setShowAll(false);
   };
