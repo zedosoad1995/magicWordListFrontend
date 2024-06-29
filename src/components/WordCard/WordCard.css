@@ -1,0 +1,14 @@
+.card {
+  border: black 1px solid;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.rating {
+  display: flex;
+  gap: 4px;
+}
+
+.rating-label {
+  font-weight: 300;
+}
