@@ -1,12 +1,25 @@
 .card {
   border: black 1px solid;
-  padding: 8px 12px;
+  padding: 12px;
   border-radius: 8px;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-edit-icon {
+  cursor: pointer;
 }
 
 .rating {
   display: flex;
-  gap: 4px;
+  gap: 8px;
 }
 
 .rating-label {

@@ -2,6 +2,9 @@
   display: flex;
   gap: 8px;
   flex-direction: column;
+  border: black 1px solid;
+  border-radius: 8px;
+  padding: 16px;
 }
 
 .word-field {
@@ -11,4 +14,5 @@
 
 .word-save-button {
   width: fit-content;
+  margin-top: 8px;
 }
