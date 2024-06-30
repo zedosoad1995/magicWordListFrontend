@@ -1,5 +1,10 @@
 import { api } from ".";
-import { IEditWordBody, IPickDailyWordsReturn, IWord } from "../types/word";
+import {
+  ICreateWordBody,
+  IEditWordBody,
+  IPickDailyWordsReturn,
+  IWord,
+} from "../types/word";
 
 export const getWord = (id: string): Promise<IWord> => {
   return api.get(`/words/${id}`);
@@ -11,4 +16,8 @@ export const pickDailyWords = (): Promise<IPickDailyWordsReturn> => {
 
 export const editWord = (id: string, body: IEditWordBody): Promise<IWord> => {
   return api.patch(`/words/${id}`, body);
+};
+
+export const createWord = (body: ICreateWordBody): Promise<IWord> => {
+  return api.post("/words", body);
 };

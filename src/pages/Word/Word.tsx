@@ -1,8 +1,8 @@
 import "./Word.css";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { editWord, getWord } from "../../api/words";
-import { IWord } from "../../types/word";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { createWord, editWord, getWord } from "../../api/words";
+import { ICreateWordBody } from "../../types/word";
 
 const FIELD_NAMES = {
   WORD: "word",
@@ -12,35 +12,50 @@ const FIELD_NAMES = {
 } as const;
 
 export const Word = () => {
+  const navigate = useNavigate();
+
   const { wordId } = useParams();
-  const [word, setWord] = useState<IWord>();
+  const isCreatingWord = useMemo(() => wordId === "add-word", [wordId]);
+
+  const [word, setWord] = useState<ICreateWordBody>({
+    knowledge: 3,
+    relevance: 3,
+    original: "",
+    translation: "",
+  });
+  const [isSet, setIsSet] = useState(isCreatingWord);
 
   useEffect(() => {
-    if (wordId) {
-      getWord(wordId).then((word) => setWord(word));
+    if (wordId && !isCreatingWord) {
+      getWord(wordId).then(
+        async ({ knowledge, original, relevance, translation }) => {
+          setWord({ knowledge, original, relevance, translation });
+          setIsSet(true);
+        }
+      );
     }
   }, [wordId]);
 
   const handleWordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.currentTarget.value.trim();
+    const value = event.currentTarget.value;
 
     switch (event.currentTarget.id) {
       case FIELD_NAMES.WORD:
-        setWord((word) => (word ? { ...word, original: value } : undefined));
+        setWord((word) => ({ ...word, original: value }));
         break;
       case FIELD_NAMES.TRANSLATION:
-        setWord((word) => (word ? { ...word, translation: value } : undefined));
+        setWord((word) => ({ ...word, translation: value }));
         break;
       case FIELD_NAMES.KNOWLEDGE:
         const knowledge = Number(value);
         if (knowledge >= 1 && knowledge <= 5) {
-          setWord((word) => (word ? { ...word, knowledge } : undefined));
+          setWord((word) => ({ ...word, knowledge }));
         }
         break;
       case FIELD_NAMES.RELEVANCE:
         const relevance = Number(value);
         if (relevance >= 1 && relevance <= 5) {
-          setWord((word) => (word ? { ...word, relevance } : undefined));
+          setWord((word) => ({ ...word, relevance }));
         }
         break;
     }
@@ -52,11 +67,21 @@ export const Word = () => {
     }
 
     const { original, translation, knowledge, relevance } = word;
-    await editWord(wordId, { original, translation, knowledge, relevance });
+    if (isCreatingWord) {
+      const createdWord = await createWord({
+        original,
+        translation,
+        knowledge,
+        relevance,
+      });
+      navigate(`/word/${createdWord.id}`);
+    } else {
+      await editWord(wordId, { original, translation, knowledge, relevance });
+    }
   };
 
   return (
-    word && (
+    isSet && (
       <div className="word-container">
         <div className="word-field">
           <label>Word</label>

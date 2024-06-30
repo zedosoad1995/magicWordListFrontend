@@ -11,6 +11,13 @@ export interface IWord {
   updated_at: Date;
 }
 
+export interface ICreateWordBody {
+  original: string;
+  translation: string;
+  knowledge: number;
+  relevance: number;
+}
+
 export type IEditWordBody = Partial<{
   original: string;
   translation: string;
