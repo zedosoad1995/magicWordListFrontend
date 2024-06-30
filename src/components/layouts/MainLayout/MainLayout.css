@@ -1,0 +1,17 @@
+@media (max-width: 600px) {
+  .layout-container {
+    margin: 16px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  .layout-container {
+    margin: 32px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .layout-container {
+    margin: 64px;
+  }
+}

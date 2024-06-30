@@ -1,0 +1,14 @@
+.word-container {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.word-field {
+  display: flex;
+  gap: 8px;
+}
+
+.word-save-button {
+  width: fit-content;
+}

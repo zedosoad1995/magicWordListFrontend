@@ -1,3 +1,4 @@
+import "./WordsOfTheDay.css";
 import { useEffect, useMemo, useState } from "react";
 import { pickDailyWords } from "../../api/words";
 import { IWord } from "../../types/word";
@@ -27,6 +28,8 @@ export const WordsOfTheDay = () => {
 
   return (
     <>
+      {!hasUnseenWords && <h1>Words of the Day</h1>}
+      <button className="add-word-button">Add Word</button>
       {hasUnseenWords && (
         <UnseenWordCard
           word={unseenWords[0]}
