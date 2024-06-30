@@ -21,3 +21,7 @@ export const editWord = (id: string, body: IEditWordBody): Promise<IWord> => {
 export const createWord = (body: ICreateWordBody): Promise<IWord> => {
   return api.post("/words", body);
 };
+
+export const deleteWord = (id: string): Promise<void> => {
+  return api.delete(`/words/${id}`);
+};

@@ -12,7 +12,8 @@
   gap: 8px;
 }
 
-.word-save-button {
-  width: fit-content;
+.word-buttons-group {
+  display: flex;
+  gap: 8px;
   margin-top: 8px;
 }

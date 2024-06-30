@@ -1,7 +1,7 @@
 import "./Word.css";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { createWord, editWord, getWord } from "../../api/words";
+import { createWord, deleteWord, editWord, getWord } from "../../api/words";
 import { ICreateWordBody } from "../../types/word";
 import { WORD_FIELD_NAMES } from "../../constants.ts/word";
 
@@ -74,6 +74,15 @@ export const Word = () => {
     }
   };
 
+  const handleClickDelete = async () => {
+    if (!wordId) {
+      return;
+    }
+
+    await deleteWord(wordId);
+    navigate("/");
+  };
+
   const handleClickBack = () => {
     navigate("/");
   };
@@ -122,9 +131,12 @@ export const Word = () => {
               id={WORD_FIELD_NAMES.RELEVANCE}
             />
           </div>
-          <button className="word-save-button" onClick={handleClickSave}>
-            Save
-          </button>
+          <div className="word-buttons-group">
+            <button onClick={handleClickSave}>Save</button>
+            {!isCreatingWord && (
+              <button onClick={handleClickDelete}>Delete</button>
+            )}
+          </div>
         </div>
       )}
     </>
