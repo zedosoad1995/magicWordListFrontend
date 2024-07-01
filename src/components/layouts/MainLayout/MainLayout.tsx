@@ -7,6 +7,8 @@ export const MainLayout = () => {
       <nav className="topbar">
         <Link to={"/"}>Home</Link>
         <Link to={"/play"}>Play</Link>
+        <Link to={"/words"}>Words</Link>
+        <Link to={"/settings"}>Settings</Link>
       </nav>
       <div className="layout-container">
         <Outlet />

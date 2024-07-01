@@ -7,6 +7,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Word } from "./pages/Word/Word.tsx";
 import { DailyWordsProvider } from "./contexts/dailyWords.tsx";
 import { Play } from "./pages/Play/Play.tsx";
+import { Words } from "./pages/Words/Words.tsx";
+import { Settings } from "./pages/Settings/Settings.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,8 +19,16 @@ const router = createBrowserRouter([
         element: <WordsOfTheDay />,
       },
       {
+        path: "/words",
+        element: <Words />,
+      },
+      {
         path: "/play",
         element: <Play />,
+      },
+      {
+        path: "/settings",
+        element: <Settings />,
       },
       {
         path: "/word/:wordId",

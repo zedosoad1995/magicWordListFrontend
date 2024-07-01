@@ -1,7 +1,7 @@
 import "./WordsOfTheDay.css";
 import { useEffect } from "react";
 import { pickDailyWords } from "../../api/words";
-import { ListOfWords } from "./components/ListOfWords/ListOfWords";
+import { ListOfWords } from "../../components/ListOfWords/ListOfWords";
 import { UnseenWordCard } from "./components/UnseenWordCard/UnseenWordCard";
 import { useNavigate } from "react-router-dom";
 import { useDailyWords } from "../../contexts/dailyWords";
@@ -17,7 +17,7 @@ export const WordsOfTheDay = () => {
   }, []);
 
   const handleClickAddWord = () => {
-    navigate("word/add-word");
+    navigate("/word/add-word");
   };
 
   return (

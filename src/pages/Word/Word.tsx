@@ -1,12 +1,14 @@
 import "./Word.css";
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { createWord, deleteWord, editWord, getWord } from "../../api/words";
 import { ICreateWordBody } from "../../types/word";
 import { WORD_FIELD_NAMES } from "../../constants.ts/word";
 
 export const Word = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const previousURL = location.state?.from;
 
   const { wordId } = useParams();
   const isCreatingWord = useMemo(() => wordId === "add-word", [wordId]);
@@ -68,7 +70,9 @@ export const Word = () => {
         knowledge,
         relevance,
       });
-      navigate(`/word/${createdWord.id}`);
+      navigate(`/word/${createdWord.id}`, {
+        state: { from: previousURL },
+      });
     } else {
       await editWord(wordId, { original, translation, knowledge, relevance });
     }
@@ -80,11 +84,11 @@ export const Word = () => {
     }
 
     await deleteWord(wordId);
-    navigate("/");
+    navigate(previousURL ?? "/");
   };
 
   const handleClickBack = () => {
-    navigate("/");
+    navigate(previousURL ?? "/");
   };
 
   return (

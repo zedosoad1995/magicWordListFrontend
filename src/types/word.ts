@@ -30,3 +30,8 @@ export interface IPickDailyWordsReturn {
   seenWords: IWord[];
   unseenWords: IWord[];
 }
+
+export interface IGetWordsReturn {
+  words: IWord[];
+  total: number;
+}

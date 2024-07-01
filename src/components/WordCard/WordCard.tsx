@@ -23,7 +23,9 @@ export const WordCard = ({
   const navigate = useNavigate();
 
   const handleClickEdit = () => {
-    navigate(`/word/${word.id}`);
+    navigate(`/word/${word.id}`, {
+      state: { from: window.location.pathname },
+    });
   };
 
   return (

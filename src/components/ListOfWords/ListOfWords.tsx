@@ -1,6 +1,6 @@
 import "./ListOfWords.css";
-import { IWord } from "../../../../types/word";
-import { WordCard } from "../../../../components/WordCard/WordCard";
+import { IWord } from "../../types/word";
+import { WordCard } from "../WordCard/WordCard";
 
 interface ListOfWordsProps {
   words: IWord[];
