@@ -6,6 +6,7 @@ import { MainLayout } from "./components/layouts/MainLayout/MainLayout.tsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Word } from "./pages/Word/Word.tsx";
 import { DailyWordsProvider } from "./contexts/dailyWords.tsx";
+import { Play } from "./pages/Play/Play.tsx";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <WordsOfTheDay />,
+      },
+      {
+        path: "/play",
+        element: <Play />,
       },
       {
         path: "/word/:wordId",

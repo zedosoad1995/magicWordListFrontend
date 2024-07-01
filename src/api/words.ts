@@ -25,3 +25,11 @@ export const createWord = (body: ICreateWordBody): Promise<IWord> => {
 export const deleteWord = (id: string): Promise<void> => {
   return api.delete(`/words/${id}`);
 };
+
+export const startTraining = (): Promise<void> => {
+  return api.put("/words/training/start");
+};
+
+export const getTrainingNextWord = (): Promise<IWord> => {
+  return api.post("/words/training/next-word");
+};

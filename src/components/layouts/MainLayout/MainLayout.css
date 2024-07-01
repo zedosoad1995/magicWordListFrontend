@@ -22,7 +22,8 @@
     gap: 16px;
   }
   .layout-container {
-    margin: 16px 32px;
+    margin: auto;
+    max-width: 600px;
   }
 }
 
@@ -32,7 +33,11 @@
     padding-right: 64px;
     gap: 24px;
   }
+}
+
+@media (min-width: 601px) {
   .layout-container {
-    margin: 32px 64px;
+    margin: auto;
+    max-width: 560px;
   }
 }
