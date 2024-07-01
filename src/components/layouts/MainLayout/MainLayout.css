@@ -1,17 +1,38 @@
+.topbar {
+  display: flex;
+  padding: 8px 0;
+  border-bottom: black 1px solid;
+}
+
 @media (max-width: 600px) {
+  .topbar {
+    padding-left: 16px;
+    padding-right: 16px;
+    gap: 8px;
+  }
   .layout-container {
-    margin: 16px;
+    margin: 8px 16px;
   }
 }
 
 @media (min-width: 601px) and (max-width: 1024px) {
+  .topbar {
+    padding-left: 32px;
+    padding-right: 32px;
+    gap: 16px;
+  }
   .layout-container {
-    margin: 32px;
+    margin: 16px 32px;
   }
 }
 
 @media (min-width: 1025px) {
+  .topbar {
+    padding-left: 64px;
+    padding-right: 64px;
+    gap: 24px;
+  }
   .layout-container {
-    margin: 64px;
+    margin: 32px 64px;
   }
 }
