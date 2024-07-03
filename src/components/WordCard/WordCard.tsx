@@ -10,6 +10,7 @@ interface WordCardProps {
   showAll?: boolean;
   editRatingInCard?: boolean;
   handleClickShow?: () => void;
+  handleClickIsLearned?: () => void;
   handleChangeWord?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
@@ -19,6 +20,7 @@ export const WordCard = ({
   editRatingInCard = false,
   handleClickShow,
   handleChangeWord,
+  handleClickIsLearned,
 }: WordCardProps) => {
   const navigate = useNavigate();
 
@@ -38,7 +40,7 @@ export const WordCard = ({
             <div>{word.translation}</div>
             <div className="rating">
               <label className="rating-label">
-                Knowledge (1-5){editRatingInCard ? "" : ":"}
+                Knowledge{editRatingInCard ? " (1-5)" : ":"}
               </label>
               {editRatingInCard ? (
                 <input
@@ -55,7 +57,7 @@ export const WordCard = ({
             </div>
             <div className="rating">
               <label className="rating-label">
-                Relevance (1-5){editRatingInCard ? "" : ":"}
+                Relevance{editRatingInCard ? " (1-5)" : ":"}
               </label>
               {editRatingInCard ? (
                 <input
@@ -70,6 +72,19 @@ export const WordCard = ({
                 <div>{word.relevance}</div>
               )}
             </div>
+            {editRatingInCard && (
+              <div
+                onClick={handleClickIsLearned}
+                className="wordCard-checkbox-field"
+              >
+                <input
+                  type="checkbox"
+                  checked={word.is_learned}
+                  className="wordCard-learned-checkbox"
+                />
+                <label className="wordCard-learned-label">Learned</label>
+              </div>
+            )}
           </>
         )}
       </div>

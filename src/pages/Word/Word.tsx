@@ -20,6 +20,7 @@ export const Word = () => {
     translation: "",
   });
   const [isSet, setIsSet] = useState(isCreatingWord);
+  const [isLearned, setIsLearned] = useState(false);
 
   useEffect(() => {
     if (wordId && !isCreatingWord) {
@@ -72,7 +73,13 @@ export const Word = () => {
       });
       navigate(previousURL ?? "/");
     } else {
-      await editWord(wordId, { original, translation, knowledge, relevance });
+      await editWord(wordId, {
+        original,
+        translation,
+        knowledge,
+        relevance,
+        is_learned: isLearned,
+      });
     }
   };
 
@@ -87,6 +94,10 @@ export const Word = () => {
 
   const handleClickBack = () => {
     navigate(previousURL ?? "/");
+  };
+
+  const handleClickCheckbox = () => {
+    setIsLearned((val) => !val);
   };
 
   return (
@@ -133,6 +144,16 @@ export const Word = () => {
               id={WORD_FIELD_NAMES.RELEVANCE}
             />
           </div>
+          {!isCreatingWord && (
+            <div onClick={handleClickCheckbox} className="word-checkbox-field">
+              <input
+                type="checkbox"
+                checked={isLearned}
+                className="word-learned-checkbox"
+              />
+              <label className="word-learned-label">Learned</label>
+            </div>
+          )}
           <div className="word-buttons-group">
             <button onClick={handleClickSave}>Save</button>
             {!isCreatingWord && (

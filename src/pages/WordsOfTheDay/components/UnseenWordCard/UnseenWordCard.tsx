@@ -23,6 +23,7 @@ export const UnseenWordCard = ({ word }: ListOfWordsProps) => {
     await editWord(word.id, {
       relevance: word.relevance,
       knowledge: word.knowledge,
+      is_learned: word.is_learned,
       isSeen: true,
     });
     moveUnseenWordToSeen();
@@ -48,6 +49,10 @@ export const UnseenWordCard = ({ word }: ListOfWordsProps) => {
     }
   };
 
+  const handleClickIsLearned = () => {
+    updateUnseenWord((word) => ({ ...word, is_learned: !word.is_learned }));
+  };
+
   return (
     <>
       <WordCard
@@ -56,6 +61,7 @@ export const UnseenWordCard = ({ word }: ListOfWordsProps) => {
         handleClickShow={handleClickShow}
         editRatingInCard
         handleChangeWord={handleWordChange}
+        handleClickIsLearned={handleClickIsLearned}
       />
       {showAll && <button onClick={handleClickNext}>Next</button>}
     </>

@@ -12,8 +12,20 @@
   gap: 8px;
 }
 
+.word-checkbox-field {
+  cursor: pointer;
+}
+
 .word-buttons-group {
   display: flex;
   gap: 8px;
-  margin-top: 8px;
+  margin-top: 24px;
+}
+
+.word-learned-label {
+  margin-left: 4px;
+}
+
+.word-learned-checkbox {
+  margin-left: 0;
 }

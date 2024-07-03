@@ -29,6 +29,8 @@ export const Play = () => {
     await editWord(word.id, {
       relevance: word.relevance,
       knowledge: word.knowledge,
+      is_learned: word.is_learned,
+      isSeen: true,
     });
     const nextWord = await getTrainingNextWord();
     setWord(nextWord);
@@ -54,6 +56,12 @@ export const Play = () => {
     }
   };
 
+  const handleClickIsLearned = () => {
+    setWord((word) =>
+      word ? { ...word, is_learned: !word.is_learned } : undefined
+    );
+  };
+
   return (
     <>
       <h1>Play</h1>
@@ -64,6 +72,7 @@ export const Play = () => {
           editRatingInCard
           handleChangeWord={handleWordChange}
           showAll={showAll}
+          handleClickIsLearned={handleClickIsLearned}
         />
       )}
       {showAll && word && <button onClick={handleClickNext}>Next</button>}
