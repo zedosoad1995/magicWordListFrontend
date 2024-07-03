@@ -10,7 +10,7 @@ export const ListOfWords = ({ words }: ListOfWordsProps) => {
   return (
     <div className="container">
       {words.map((word) => (
-        <WordCard word={word} />
+        <WordCard key={word.id} word={word} />
       ))}
     </div>
   );

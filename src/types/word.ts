@@ -1,3 +1,5 @@
+import { IOrder } from "./query";
+
 export interface IWord {
   id: string;
   original: string;
@@ -34,4 +36,15 @@ export interface IPickDailyWordsReturn {
 export interface IGetWordsReturn {
   words: IWord[];
   total: number;
+}
+
+export type IWordSortBy =
+  | "original"
+  | "translation"
+  | "relevance"
+  | "knowledge";
+
+export interface IGetWordsQuery {
+  sortBy?: IWordSortBy;
+  order?: IOrder;
 }

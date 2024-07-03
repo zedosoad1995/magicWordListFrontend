@@ -2,13 +2,16 @@ import { api } from ".";
 import {
   ICreateWordBody,
   IEditWordBody,
+  IGetWordsQuery,
   IGetWordsReturn,
   IPickDailyWordsReturn,
   IWord,
 } from "../types/word";
 
-export const getWords = (): Promise<IGetWordsReturn> => {
-  return api.get("/words");
+export const getWords = (query?: IGetWordsQuery): Promise<IGetWordsReturn> => {
+  return api.get("/words", {
+    params: query,
+  });
 };
 
 export const getWord = (id: string): Promise<IWord> => {

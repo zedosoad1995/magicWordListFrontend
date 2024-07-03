@@ -64,15 +64,13 @@ export const Word = () => {
 
     const { original, translation, knowledge, relevance } = word;
     if (isCreatingWord) {
-      const createdWord = await createWord({
+      await createWord({
         original,
         translation,
         knowledge,
         relevance,
       });
-      navigate(`/word/${createdWord.id}`, {
-        state: { from: previousURL },
-      });
+      navigate(previousURL ?? "/");
     } else {
       await editWord(wordId, { original, translation, knowledge, relevance });
     }
