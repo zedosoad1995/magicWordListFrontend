@@ -9,6 +9,7 @@ export interface IWord {
   is_picked: boolean;
   last_seen: Date;
   last_training_try: number;
+  is_learned: boolean;
   created_at: Date;
   updated_at: Date;
 }
@@ -26,6 +27,7 @@ export type IEditWordBody = Partial<{
   knowledge: number;
   relevance: number;
   isSeen: boolean;
+  is_learned: boolean;
 }>;
 
 export interface IPickDailyWordsReturn {
@@ -47,4 +49,5 @@ export type IWordSortBy =
 export interface IGetWordsQuery {
   sortBy?: IWordSortBy;
   order?: IOrder;
+  isLearned?: boolean;
 }

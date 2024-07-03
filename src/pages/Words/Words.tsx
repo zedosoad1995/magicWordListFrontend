@@ -47,13 +47,15 @@ export const Words = () => {
 
   const [words, setWords] = useState<IWord[]>([]);
   const [sortValue, setSortValue] = useState<SortKeys>("WORDS_A_Z");
+  const [isLearned, setIsLearned] = useState(false);
 
   useEffect(() => {
     getWords({
       sortBy: SORT_TYPES[sortValue].sortBy,
       order: SORT_TYPES[sortValue].order,
+      isLearned,
     }).then(({ words }) => setWords(words));
-  }, [sortValue]);
+  }, [sortValue, isLearned]);
 
   const handleClickAddWord = () => {
     navigate("/word/add-word", { state: { from: window.location.pathname } });
@@ -70,19 +72,36 @@ export const Words = () => {
     setSortValue(value);
   };
 
+  const handleClickIsLearnedCheckbox = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setIsLearned(event.currentTarget.checked);
+  };
+
   return (
     <>
       <h1>Words</h1>
       <button onClick={handleClickAddWord}>Add Word</button>
-      <div className="words-sort-container">
-        <label className="words-sort-label">Sort:</label>
-        <select value={sortValue} onChange={handleChangeSort}>
-          {Object.entries(SORT_TYPES).map(([id, { name }]) => (
-            <option key={id} value={id}>
-              {name}
-            </option>
-          ))}
-        </select>
+      <div className="words-filters-container">
+        <div>
+          <label className="words-sort-label">Sort</label>
+          <select value={sortValue} onChange={handleChangeSort}>
+            {Object.entries(SORT_TYPES).map(([id, { name }]) => (
+              <option key={id} value={id}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="words-learned-label">Learned words</label>
+          <input
+            type="checkbox"
+            checked={isLearned}
+            onChange={handleClickIsLearnedCheckbox}
+            className="words-learned-input"
+          />
+        </div>
       </div>
       <ListOfWords words={words} />
     </>

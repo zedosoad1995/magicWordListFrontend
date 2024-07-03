@@ -1,7 +1,18 @@
-.words-sort-container {
+.words-filters-container {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
   margin-bottom: 4px;
 }
 
 .words-sort-label {
   margin-right: 8px;
+}
+
+.words-learned-label {
+  margin-right: 4px;
+}
+
+.words-learned-input {
+  vertical-align: middle;
 }
