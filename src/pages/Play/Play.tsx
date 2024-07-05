@@ -23,37 +23,24 @@ export const Play = () => {
     setShowAll(true);
   };
 
-  const handleClickNext = async () => {
+  const handleClickNext = async ({
+    isLearned,
+    knowledge,
+    relevance,
+  }: IEditWordValuesSchema) => {
     if (!word) {
       return;
     }
 
     await editWord(word.id, {
-      relevance: word.relevance,
-      knowledge: word.knowledge,
-      is_learned: word.is_learned,
+      relevance: relevance,
+      knowledge: knowledge,
+      is_learned: isLearned,
       isSeen: true,
     });
     const nextWord = await getTrainingNextWord();
     setWord(nextWord);
     setShowAll(false);
-  };
-
-  const onSubmit = ({
-    isLearned,
-    knowledge,
-    relevance,
-  }: IEditWordValuesSchema) => {
-    setWord((word) =>
-      word
-        ? {
-            ...word,
-            knowledge: knowledge,
-            relevance: relevance,
-            is_learned: isLearned,
-          }
-        : undefined
-    );
   };
 
   return (
@@ -66,10 +53,14 @@ export const Play = () => {
           editRatingInCard
           showAll={showAll}
           formId={FORM_ID}
-          onSubmit={onSubmit}
+          onSubmit={handleClickNext}
         />
       )}
-      {showAll && word && <button onClick={handleClickNext}>Next</button>}
+      {showAll && word && (
+        <button type="submit" form={FORM_ID}>
+          Next
+        </button>
+      )}
     </>
   );
 };

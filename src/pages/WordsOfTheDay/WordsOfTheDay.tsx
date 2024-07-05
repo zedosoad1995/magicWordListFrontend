@@ -8,7 +8,7 @@ import { useDailyWords } from "../../contexts/dailyWords";
 
 export const WordsOfTheDay = () => {
   const navigate = useNavigate();
-  const { seenWords, updateWords, nextUnseenWord } = useDailyWords();
+  const { seenWords, updateWords, currentUnseenWord } = useDailyWords();
 
   useEffect(() => {
     pickDailyWords().then(({ seenWords, unseenWords }) => {
@@ -22,12 +22,12 @@ export const WordsOfTheDay = () => {
 
   return (
     <>
-      {!nextUnseenWord && <h1>Words of the Day</h1>}
+      {!currentUnseenWord && <h1>Words of the Day</h1>}
       <button className="add-word-button" onClick={handleClickAddWord}>
         Add Word
       </button>
-      {nextUnseenWord && <UnseenWordCard word={nextUnseenWord} />}
-      {!nextUnseenWord && <ListOfWords words={seenWords} />}
+      {currentUnseenWord && <UnseenWordCard word={currentUnseenWord} />}
+      {!currentUnseenWord && <ListOfWords words={seenWords} />}
     </>
   );
 };

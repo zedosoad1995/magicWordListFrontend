@@ -13,7 +13,7 @@ interface ListOfWordsProps {
 }
 
 export const UnseenWordCard = ({ word }: ListOfWordsProps) => {
-  const { moveUnseenWordToSeen, updateUnseenWord } = useDailyWords();
+  const { moveUnseenWordToSeen } = useDailyWords();
 
   const [showAll, setShowAll] = useState(false);
 
@@ -21,28 +21,19 @@ export const UnseenWordCard = ({ word }: ListOfWordsProps) => {
     setShowAll(true);
   };
 
-  const handleClickNext = async () => {
-    await editWord(word.id, {
-      relevance: word.relevance,
-      knowledge: word.knowledge,
-      is_learned: word.is_learned,
-      isSeen: true,
-    });
-    moveUnseenWordToSeen();
-    setShowAll(false);
-  };
-
-  const onSubmit = ({
+  const handleClickNext = async ({
     isLearned,
     knowledge,
     relevance,
   }: IEditWordValuesSchema) => {
-    updateUnseenWord((word) => ({
-      ...word,
-      knowledge: knowledge,
+    await editWord(word.id, {
       relevance: relevance,
+      knowledge: knowledge,
       is_learned: isLearned,
-    }));
+      isSeen: true,
+    });
+    moveUnseenWordToSeen({ knowledge, relevance, is_learned: isLearned });
+    setShowAll(false);
   };
 
   return (
@@ -53,9 +44,13 @@ export const UnseenWordCard = ({ word }: ListOfWordsProps) => {
         handleClickShow={handleClickShow}
         editRatingInCard
         formId={FORM_ID}
-        onSubmit={onSubmit}
+        onSubmit={handleClickNext}
       />
-      {showAll && <button onClick={handleClickNext}>Next</button>}
+      {showAll && (
+        <button type="submit" form={FORM_ID}>
+          Next
+        </button>
+      )}
     </>
   );
 };
