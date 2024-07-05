@@ -12,10 +12,6 @@
   gap: 8px;
 }
 
-.word-checkbox-field {
-  cursor: pointer;
-}
-
 .word-buttons-group {
   display: flex;
   gap: 8px;

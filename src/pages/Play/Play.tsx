@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { startTraining, getTrainingNextWord, editWord } from "../../api/words";
 import { WordCard } from "../../components/WordCard/WordCard";
 import { IWord } from "../../types/word";
-import { WORD_FIELD_NAMES } from "../../constants.ts/word";
+import { IEditWordValuesSchema } from "../../schemas/word/editWordValues";
+
+const FORM_ID = "play-word";
 
 export const Play = () => {
   const [word, setWord] = useState<IWord>();
@@ -37,28 +39,20 @@ export const Play = () => {
     setShowAll(false);
   };
 
-  const handleWordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.currentTarget.value;
-
-    switch (event.currentTarget.id) {
-      case WORD_FIELD_NAMES.KNOWLEDGE:
-        const knowledge = Number(value);
-        if (knowledge >= 1 && knowledge <= 5) {
-          setWord((word) => (word ? { ...word, knowledge } : undefined));
-        }
-        break;
-      case WORD_FIELD_NAMES.RELEVANCE:
-        const relevance = Number(value);
-        if (relevance >= 1 && relevance <= 5) {
-          setWord((word) => (word ? { ...word, relevance } : undefined));
-        }
-        break;
-    }
-  };
-
-  const handleClickIsLearned = () => {
+  const onSubmit = ({
+    isLearned,
+    knowledge,
+    relevance,
+  }: IEditWordValuesSchema) => {
     setWord((word) =>
-      word ? { ...word, is_learned: !word.is_learned } : undefined
+      word
+        ? {
+            ...word,
+            knowledge: knowledge,
+            relevance: relevance,
+            is_learned: isLearned,
+          }
+        : undefined
     );
   };
 
@@ -70,9 +64,9 @@ export const Play = () => {
           word={word}
           handleClickShow={handleClickShow}
           editRatingInCard
-          handleChangeWord={handleWordChange}
           showAll={showAll}
-          handleClickIsLearned={handleClickIsLearned}
+          formId={FORM_ID}
+          onSubmit={onSubmit}
         />
       )}
       {showAll && word && <button onClick={handleClickNext}>Next</button>}

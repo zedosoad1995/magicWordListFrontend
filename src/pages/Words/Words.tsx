@@ -9,6 +9,8 @@ import { IOrder } from "../../types/query";
 type SortKeys =
   | "WORDS_A_Z"
   | "WORDS_Z_A"
+  | "TRANSLATION_A_Z"
+  | "TRANSLATION_Z_A"
   | "RELEVANCE_1_5"
   | "RELEVANCE_5_1"
   | "KNOWLEDGE_1_5"
@@ -20,6 +22,16 @@ const SORT_TYPES: Record<
 > = {
   WORDS_A_Z: { name: "words a-z", sortBy: "original", order: "asc" },
   WORDS_Z_A: { name: "words z-a", sortBy: "original", order: "desc" },
+  TRANSLATION_A_Z: {
+    name: "translation a-z",
+    sortBy: "translation",
+    order: "asc",
+  },
+  TRANSLATION_Z_A: {
+    name: "translation z-a",
+    sortBy: "translation",
+    order: "desc",
+  },
   RELEVANCE_1_5: {
     name: "relevance 1 to 5",
     sortBy: "relevance",

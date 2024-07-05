@@ -3,15 +3,21 @@ import { IWord } from "../../types/word";
 import "./WordCard.css";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { WORD_FIELD_NAMES } from "../../constants.ts/word";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  IEditWordValuesSchema,
+  editWordValuesSchema,
+} from "../../schemas/word/editWordValues";
+import { useEffect } from "react";
 
 interface WordCardProps {
   word: IWord;
   showAll?: boolean;
   editRatingInCard?: boolean;
   handleClickShow?: () => void;
-  handleClickIsLearned?: () => void;
-  handleChangeWord?: React.ChangeEventHandler<HTMLInputElement>;
+  formId?: string;
+  onSubmit?: (data: IEditWordValuesSchema) => void;
 }
 
 export const WordCard = ({
@@ -19,10 +25,27 @@ export const WordCard = ({
   showAll = true,
   editRatingInCard = false,
   handleClickShow,
-  handleChangeWord,
-  handleClickIsLearned,
+  formId,
+  onSubmit,
 }: WordCardProps) => {
+  const { register, handleSubmit, reset } = useForm<IEditWordValuesSchema>({
+    resolver: zodResolver(editWordValuesSchema),
+    defaultValues: {
+      knowledge: word.knowledge,
+      relevance: word.relevance,
+      isLearned: word.is_learned,
+    },
+  });
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    reset({
+      knowledge: word.knowledge,
+      relevance: word.relevance,
+      isLearned: word.is_learned,
+    });
+  }, [word, reset]);
 
   const handleClickEdit = () => {
     navigate(`/word/${word.id}`, {
@@ -32,7 +55,11 @@ export const WordCard = ({
 
   return (
     <div className="card">
-      <div className="card-content">
+      <form
+        className="card-content"
+        id={formId}
+        onSubmit={onSubmit ? handleSubmit(onSubmit) : undefined}
+      >
         <div>{word.original}</div>
         {!showAll && <button onClick={handleClickShow}>Show</button>}
         {showAll && (
@@ -47,9 +74,7 @@ export const WordCard = ({
                   type="number"
                   min={1}
                   max={5}
-                  value={word.knowledge}
-                  onChange={handleChangeWord}
-                  id={WORD_FIELD_NAMES.KNOWLEDGE}
+                  {...register("knowledge", { valueAsNumber: true })}
                 />
               ) : (
                 <div>{word.knowledge}</div>
@@ -64,30 +89,25 @@ export const WordCard = ({
                   type="number"
                   min={1}
                   max={5}
-                  value={word.relevance}
-                  onChange={handleChangeWord}
-                  id={WORD_FIELD_NAMES.RELEVANCE}
+                  {...register("relevance", { valueAsNumber: true })}
                 />
               ) : (
                 <div>{word.relevance}</div>
               )}
             </div>
             {editRatingInCard && (
-              <div
-                onClick={handleClickIsLearned}
-                className="wordCard-checkbox-field"
-              >
+              <div>
                 <input
                   type="checkbox"
-                  checked={word.is_learned}
                   className="wordCard-learned-checkbox"
+                  {...register("isLearned")}
                 />
                 <label className="wordCard-learned-label">Learned</label>
               </div>
             )}
           </>
         )}
-      </div>
+      </form>
       {showAll && (
         <FontAwesomeIcon
           className="card-edit-icon"
