@@ -6,11 +6,9 @@ export const createUser = (body: IRegisterBody): Promise<IUser> => {
 };
 
 export const login = (body: ILoginBody): Promise<IUser> => {
-  localStorage.setItem("loggedIn", "true");
   return api.put("/auth/login", body);
 };
 
 export const logout = (): Promise<IUser> => {
-  localStorage.removeItem("loggedIn");
   return api.put("/auth/logout");
 };

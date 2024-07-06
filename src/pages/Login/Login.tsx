@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { login } from "../../api/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -18,6 +18,7 @@ export const Login = () => {
 
   const handleClickButton = async () => {
     await login({ email, password });
+    localStorage.setItem("loggedIn", "true");
     navigate("/");
   };
 
@@ -34,6 +35,9 @@ export const Login = () => {
           onChange={handleChangePassword}
           type="password"
         />
+      </div>
+      <div>
+        <Link to={"/register"}>Don't have any account? Sign up here</Link>
       </div>
       <button onClick={handleClickButton}>Login</button>
     </div>

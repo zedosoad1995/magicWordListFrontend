@@ -16,6 +16,7 @@ export const MainLayout = () => {
 
   const handleClickLogout = async () => {
     await logout();
+    localStorage.removeItem("loggedIn");
     navigate("/login");
   };
 

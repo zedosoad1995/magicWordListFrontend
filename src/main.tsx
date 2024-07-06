@@ -11,6 +11,7 @@ import { Words } from "./pages/Words/Words.tsx";
 import { Settings } from "./pages/Settings/Settings.tsx";
 import { Login } from "./pages/Login/Login.tsx";
 import { UnprotectedLayout } from "./components/layouts/UnprotectedLayout/UnprotectedLayout.tsx";
+import { Register } from "./pages/Register/Register.tsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
     ],
   },

@@ -10,6 +10,7 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     if (error.response?.status === 401) {
       await logout();
+      localStorage.removeItem("loggedIn");
       window.location.href = "/login";
     }
 
