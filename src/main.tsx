@@ -9,8 +9,19 @@ import { DailyWordsProvider } from "./contexts/dailyWords.tsx";
 import { Play } from "./pages/Play/Play.tsx";
 import { Words } from "./pages/Words/Words.tsx";
 import { Settings } from "./pages/Settings/Settings.tsx";
+import { Login } from "./pages/Login/Login.tsx";
+import { UnprotectedLayout } from "./components/layouts/UnprotectedLayout/UnprotectedLayout.tsx";
 
 const router = createBrowserRouter([
+  {
+    element: <UnprotectedLayout />,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+      },
+    ],
+  },
   {
     element: <MainLayout />,
     children: [

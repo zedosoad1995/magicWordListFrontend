@@ -1,13 +1,20 @@
 .topbar {
   display: flex;
+  justify-content: space-between;
   padding: 8px 0;
   border-bottom: black 1px solid;
+}
+
+.links-container {
+  display: flex;
 }
 
 @media (max-width: 600px) {
   .topbar {
     padding-left: 16px;
     padding-right: 16px;
+  }
+  .links-container {
     gap: 8px;
   }
   .layout-container {
@@ -19,11 +26,13 @@
   .topbar {
     padding-left: 32px;
     padding-right: 32px;
+  }
+  .links-container {
     gap: 16px;
   }
   .layout-container {
     margin: auto;
-    max-width: 600px;
+    max-width: 560px;
   }
 }
 
@@ -31,11 +40,10 @@
   .topbar {
     padding-left: 64px;
     padding-right: 64px;
+  }
+  .links-container {
     gap: 24px;
   }
-}
-
-@media (min-width: 601px) {
   .layout-container {
     margin: auto;
     max-width: 560px;
