@@ -3,6 +3,7 @@ import { logout } from "./auth";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
 });
 
 api.interceptors.response.use(
@@ -17,7 +18,5 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-api.defaults.withCredentials = true;
 
 export { api };
