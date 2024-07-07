@@ -66,10 +66,7 @@ export const WordsOfTheDay = () => {
         </>
       )}
       {showNoWordsTodayPlaceholder && (
-        <>
-          <div>Wait until tomorrow!</div>
-          <div>Tomorrow we will recommend you new words.</div>
-        </>
+        <div>Come back tomorrow for new words!</div>
       )}
       {showUnseenWord && <UnseenWordCard word={currentUnseenWord} />}
       {showListOfSeenWord && <ListOfWords words={seenWords} />}
