@@ -123,7 +123,12 @@ export const Words = () => {
         </div>
       </div>
       {isLoadingWords && <div>Loading...</div>}
-      {!isLoadingWords && <ListOfWords words={words} />}
+      {Boolean(!isLoadingWords && words.length) && (
+        <ListOfWords words={words} />
+      )}
+      {Boolean(!isLoadingWords && !words.length) && (
+        <div>Empty list of words</div>
+      )}
     </>
   );
 };

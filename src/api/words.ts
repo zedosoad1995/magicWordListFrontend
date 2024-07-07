@@ -5,6 +5,7 @@ import {
   IGetWordsQuery,
   IGetWordsReturn,
   IPickDailyWordsReturn,
+  IStartTrainingReturn,
   IWord,
 } from "../types/word";
 
@@ -34,7 +35,7 @@ export const deleteWord = (id: string): Promise<void> => {
   return api.delete(`/words/${id}`);
 };
 
-export const startTraining = (): Promise<void> => {
+export const startTraining = (): Promise<IStartTrainingReturn> => {
   return api.put("/words/training/start");
 };
 

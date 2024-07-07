@@ -11,13 +11,19 @@ const FORM_ID = "play-word";
 export const Play = () => {
   const [word, setWord] = useState<IWord>();
   const [showAll, setShowAll] = useState(false);
+  const [hasNoWords, setHasNoWords] = useState(false);
 
   const {
     callback: handleStartTraining,
     isLoading,
     isSet,
   } = useLoadingCallback(async () => {
-    await startTraining();
+    const { totalWordsToLearn } = await startTraining();
+    setHasNoWords(totalWordsToLearn === 0);
+    if (totalWordsToLearn === 0) {
+      return;
+    }
+
     const nextWord = await getTrainingNextWord();
     setWord(nextWord);
   });
@@ -49,13 +55,18 @@ export const Play = () => {
       }
     );
 
-  const showLoading = isLoading;
   const showWord = word && !isLoading && isSet;
 
   return (
     <>
       <h1>Play</h1>
-      {showLoading && <div>Loading...</div>}
+      {isLoading && <div>Loading...</div>}
+      {!isLoading && hasNoWords && (
+        <>
+          <div>No words to show.</div>
+          <div>You must add new ones to use this mode.</div>
+        </>
+      )}
       {showWord && (
         <>
           <WordCard

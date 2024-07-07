@@ -30,9 +30,14 @@ export type IEditWordBody = Partial<{
   is_learned: boolean;
 }>;
 
+export interface IStartTrainingReturn {
+  totalWordsToLearn: number;
+}
+
 export interface IPickDailyWordsReturn {
   seenWords: IWord[];
   unseenWords: IWord[];
+  totalWordsToLearn: number;
 }
 
 export interface IGetWordsReturn {
