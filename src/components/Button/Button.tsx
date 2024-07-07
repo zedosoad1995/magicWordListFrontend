@@ -4,7 +4,12 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
 }
 
-export const Button = ({ isLoading, children = false, ...props }: IButton) => {
+export const Button = ({
+  isLoading,
+  disabled,
+  children = false,
+  ...props
+}: IButton) => {
   const ref = useRef<HTMLButtonElement | null>(null);
 
   const [nonLoadingWidth, setNonLoadingWidth] = useState<number>();
@@ -17,7 +22,7 @@ export const Button = ({ isLoading, children = false, ...props }: IButton) => {
 
   return (
     <button
-      disabled={isLoading}
+      disabled={isLoading || disabled}
       ref={ref}
       style={{ minWidth: isLoading ? nonLoadingWidth : "auto" }}
       {...props}
