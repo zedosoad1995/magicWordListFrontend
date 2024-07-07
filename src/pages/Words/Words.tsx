@@ -5,6 +5,7 @@ import { IWord, IWordSortBy } from "../../types/word";
 import { getWords } from "../../api/words";
 import { useNavigate } from "react-router-dom";
 import { IOrder } from "../../types/query";
+import { useLoadingCallback } from "../../hooks/useLoadingCallback";
 
 type SortKeys =
   | "WORDS_A_Z"
@@ -61,12 +62,18 @@ export const Words = () => {
   const [sortValue, setSortValue] = useState<SortKeys>("WORDS_A_Z");
   const [isLearned, setIsLearned] = useState(false);
 
+  const { callback: handleGetWords, isLoading: isLoadingWords } =
+    useLoadingCallback(async () => {
+      const { words } = await getWords({
+        sortBy: SORT_TYPES[sortValue].sortBy,
+        order: SORT_TYPES[sortValue].order,
+        isLearned,
+      });
+      setWords(words);
+    });
+
   useEffect(() => {
-    getWords({
-      sortBy: SORT_TYPES[sortValue].sortBy,
-      order: SORT_TYPES[sortValue].order,
-      isLearned,
-    }).then(({ words }) => setWords(words));
+    handleGetWords();
   }, [sortValue, isLearned]);
 
   const handleClickAddWord = () => {
@@ -115,7 +122,8 @@ export const Words = () => {
           />
         </div>
       </div>
-      <ListOfWords words={words} />
+      {isLoadingWords && <div>Loading...</div>}
+      {!isLoadingWords && <ListOfWords words={words} />}
     </>
   );
 };

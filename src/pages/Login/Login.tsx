@@ -2,6 +2,8 @@ import "./Login.css";
 import { useState } from "react";
 import { login } from "../../api/auth";
 import { Link, useNavigate } from "react-router-dom";
+import { Button } from "../../components/Button/Button";
+import { useLoadingCallback } from "../../hooks/useLoadingCallback";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -17,11 +19,13 @@ export const Login = () => {
     setPassword(event.currentTarget.value);
   };
 
-  const handleClickButton = async () => {
-    await login({ email, password });
-    localStorage.setItem("loggedIn", "true");
-    navigate("/");
-  };
+  const { callback: handleClickButton, isLoading } = useLoadingCallback(
+    async () => {
+      await login({ email, password });
+      localStorage.setItem("loggedIn", "true");
+      navigate("/");
+    }
+  );
 
   return (
     <div className="login-container">
@@ -44,7 +48,9 @@ export const Login = () => {
         </Link>
       </div>
       <div>
-        <button onClick={handleClickButton}>Login</button>
+        <Button onClick={handleClickButton} isLoading={isLoading}>
+          Login
+        </Button>
       </div>
     </div>
   );

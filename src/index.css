@@ -17,6 +17,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+button:disabled {
+  cursor: auto;
+}
+
 button {
   cursor: pointer;
 }

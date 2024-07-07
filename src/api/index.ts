@@ -7,7 +7,7 @@ const api = axios.create({
 });
 
 api.interceptors.response.use(
-  (response) => response.data,
+  async (response) => response.data,
   async (error: AxiosError) => {
     if (error.response?.status === 401) {
       await logout();

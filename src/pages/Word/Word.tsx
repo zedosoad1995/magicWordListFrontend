@@ -1,10 +1,12 @@
 import "./Word.css";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { createWord, deleteWord, editWord, getWord } from "../../api/words";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IWordSchema, wordSchema } from "../../schemas/word/word";
+import { Button } from "../../components/Button/Button";
+import { useLoadingCallback } from "../../hooks/useLoadingCallback";
 
 export const Word = () => {
   const {
@@ -30,68 +32,80 @@ export const Word = () => {
 
   const { wordId } = useParams();
   const isCreatingWord = useMemo(() => wordId === "add-word", [wordId]);
-  const [isSet, setIsSet] = useState(isCreatingWord);
+
+  const {
+    callback: handleGetWord,
+    isLoading: isLoadingWord,
+    isSet: isSetWord,
+  } = useLoadingCallback(async () => {
+    if (!wordId || isCreatingWord) {
+      return;
+    }
+
+    const { knowledge, original, relevance, translation } = await getWord(
+      wordId
+    );
+    reset({
+      knowledge,
+      original,
+      relevance,
+      translation,
+      isLearned: false,
+    });
+  });
 
   useEffect(() => {
-    if (wordId && !isCreatingWord) {
-      getWord(wordId).then(
-        async ({ knowledge, original, relevance, translation }) => {
-          reset({
-            knowledge,
-            original,
-            relevance,
-            translation,
-            isLearned: false,
-          });
-          setIsSet(true);
-        }
-      );
-    }
+    handleGetWord();
   }, [wordId]);
 
-  const handleClickSave = async (word: IWordSchema) => {
-    if (!wordId || !word) {
-      return;
-    }
+  const { callback: handleClickSave, isLoading: isLoadingSave } =
+    useLoadingCallback(async (word: IWordSchema) => {
+      if (!wordId || !word) {
+        return;
+      }
 
-    const { original, translation, knowledge, relevance, isLearned } = word;
-    if (isCreatingWord) {
-      await createWord({
-        original,
-        translation,
-        knowledge,
-        relevance,
-      });
+      const { original, translation, knowledge, relevance, isLearned } = word;
+      if (isCreatingWord) {
+        await createWord({
+          original,
+          translation,
+          knowledge,
+          relevance,
+        });
+        navigate(previousURL ?? "/");
+      } else {
+        await editWord(wordId, {
+          original,
+          translation,
+          knowledge,
+          relevance,
+          is_learned: isLearned,
+        });
+      }
+    });
+
+  const { callback: handleClickDelete, isLoading: isLoadingDelete } =
+    useLoadingCallback(async () => {
+      if (!wordId) {
+        return;
+      }
+
+      await deleteWord(wordId);
       navigate(previousURL ?? "/");
-    } else {
-      await editWord(wordId, {
-        original,
-        translation,
-        knowledge,
-        relevance,
-        is_learned: isLearned,
-      });
-    }
-  };
-
-  const handleClickDelete = async () => {
-    if (!wordId) {
-      return;
-    }
-
-    await deleteWord(wordId);
-    navigate(previousURL ?? "/");
-  };
+    });
 
   const handleClickBack = () => {
     navigate(previousURL ?? "/");
   };
 
+  const showWord = isCreatingWord || (isSetWord && !isLoadingWord);
+
   return (
     <>
       <button onClick={handleClickBack}>Back</button>
       <h2>{isCreatingWord ? "Add Word" : "Edit Word"}</h2>
-      {isSet && (
+      {isLoadingWord && <div>Loading...</div>}
+      {showWord && (
         <form
           className="word-container"
           onSubmit={handleSubmit(handleClickSave)}
@@ -137,11 +151,13 @@ export const Word = () => {
             </div>
           )}
           <div className="word-buttons-group">
-            <button type="submit" disabled={!isValid}>
+            <Button type="submit" disabled={!isValid} isLoading={isLoadingSave}>
               Save
-            </button>
+            </Button>
             {!isCreatingWord && (
-              <button onClick={handleClickDelete}>Delete</button>
+              <Button onClick={handleClickDelete} isLoading={isLoadingDelete}>
+                Delete
+              </Button>
             )}
           </div>
         </form>

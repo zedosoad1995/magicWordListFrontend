@@ -2,6 +2,8 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./MainLayout.css";
 import { useEffect, useState } from "react";
 import { logout } from "../../../api/auth";
+import { Button } from "../../Button/Button";
+import { useLoadingCallback } from "../../../hooks/useLoadingCallback";
 
 export const MainLayout = () => {
   const navigate = useNavigate();
@@ -14,11 +16,12 @@ export const MainLayout = () => {
     setIsLoading(false);
   }, []);
 
-  const handleClickLogout = async () => {
-    await logout();
-    localStorage.removeItem("loggedIn");
-    navigate("/login");
-  };
+  const { callback: handleClickLogout, isLoading: isLoadingLogout } =
+    useLoadingCallback(async () => {
+      await logout();
+      localStorage.removeItem("loggedIn");
+      navigate("/login");
+    });
 
   if (isLoading) {
     return <></>;
@@ -33,7 +36,9 @@ export const MainLayout = () => {
           <Link to={"/words"}>Words</Link>
           <Link to={"/settings"}>Settings</Link>
         </div>
-        <button onClick={handleClickLogout}>Logout</button>
+        <Button onClick={handleClickLogout} isLoading={isLoadingLogout}>
+          Logout
+        </Button>
       </nav>
       <div className="layout-container">
         <Outlet />

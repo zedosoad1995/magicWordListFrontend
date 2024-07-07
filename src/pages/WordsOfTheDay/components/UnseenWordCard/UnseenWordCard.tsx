@@ -5,6 +5,8 @@ import { useState } from "react";
 import { editWord } from "../../../../api/words";
 import { useDailyWords } from "../../../../contexts/dailyWords";
 import { IEditWordValuesSchema } from "../../../../schemas/word/editWordValues";
+import { Button } from "../../../../components/Button/Button";
+import { useLoadingCallback } from "../../../../hooks/useLoadingCallback";
 
 const FORM_ID = "unseen-word";
 
@@ -21,20 +23,19 @@ export const UnseenWordCard = ({ word }: ListOfWordsProps) => {
     setShowAll(true);
   };
 
-  const handleClickNext = async ({
-    isLearned,
-    knowledge,
-    relevance,
-  }: IEditWordValuesSchema) => {
-    await editWord(word.id, {
-      relevance: relevance,
-      knowledge: knowledge,
-      is_learned: isLearned,
-      isSeen: true,
-    });
-    moveUnseenWordToSeen({ knowledge, relevance, is_learned: isLearned });
-    setShowAll(false);
-  };
+  const { callback: handleClickNext, isLoading: isLoadingNext } =
+    useLoadingCallback(
+      async ({ isLearned, knowledge, relevance }: IEditWordValuesSchema) => {
+        await editWord(word.id, {
+          relevance: relevance,
+          knowledge: knowledge,
+          is_learned: isLearned,
+          isSeen: true,
+        });
+        moveUnseenWordToSeen({ knowledge, relevance, is_learned: isLearned });
+        setShowAll(false);
+      }
+    );
 
   return (
     <>
@@ -47,9 +48,9 @@ export const UnseenWordCard = ({ word }: ListOfWordsProps) => {
         onSubmit={handleClickNext}
       />
       {showAll && (
-        <button type="submit" form={FORM_ID}>
+        <Button type="submit" form={FORM_ID} isLoading={isLoadingNext}>
           Next
-        </button>
+        </Button>
       )}
     </>
   );

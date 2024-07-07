@@ -4,6 +4,8 @@ import { createUser } from "../../api/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IRegisterSchema, registerSchema } from "../../schemas/user/register";
+import { Button } from "../../components/Button/Button";
+import { useLoadingCallback } from "../../hooks/useLoadingCallback";
 
 export const Register = () => {
   const { register, handleSubmit } = useForm<IRegisterSchema>({
@@ -17,15 +19,13 @@ export const Register = () => {
 
   const navigate = useNavigate();
 
-  const handleClickButton = async ({
-    email,
-    password,
-    wordsPerDay,
-  }: IRegisterSchema) => {
-    await createUser({ email, password, words_per_day: wordsPerDay });
-    localStorage.setItem("loggedIn", "true");
-    navigate("/");
-  };
+  const { callback: handleClickButton, isLoading } = useLoadingCallback(
+    async ({ email, password, wordsPerDay }: IRegisterSchema) => {
+      await createUser({ email, password, words_per_day: wordsPerDay });
+      localStorage.setItem("loggedIn", "true");
+      navigate("/");
+    }
+  );
 
   return (
     <form
@@ -54,7 +54,9 @@ export const Register = () => {
         <Link to={"/login"}>Already have an account? Login</Link>
       </div>
       <div>
-        <button type="submit">Sign up</button>
+        <Button type="submit" isLoading={isLoading}>
+          Sign up
+        </Button>
       </div>
     </form>
   );
