@@ -1,0 +1,16 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px auto;
+  width: fit-content;
+}
+
+.login-field {
+  display: flex;
+  gap: 8px;
+}
+
+.login-link {
+  font-size: smaller;
+}

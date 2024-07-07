@@ -1,3 +1,4 @@
+import "./Register.css";
 import { useForm } from "react-hook-form";
 import { createUser } from "../../api/auth";
 import { Link, useNavigate } from "react-router-dom";
@@ -27,16 +28,20 @@ export const Register = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleClickButton)}>
-      <div>
+    <form
+      className="register-container"
+      onSubmit={handleSubmit(handleClickButton)}
+    >
+      <h1>Register</h1>
+      <div className="register-field">
         <label>Email</label>
         <input type="email" {...register("email")} />
       </div>
-      <div>
+      <div className="register-field">
         <label>Password</label>
         <input type="password" {...register("password")} />
       </div>
-      <div>
+      <div className="register-field">
         <label>Words Per Day (1-100)</label>
         <input
           type="number"
@@ -45,10 +50,12 @@ export const Register = () => {
           {...register("wordsPerDay", { valueAsNumber: true })}
         />
       </div>
-      <div>
+      <div className="register-link">
         <Link to={"/login"}>Already have an account? Login</Link>
       </div>
-      <button type="submit">Sign up</button>
+      <div>
+        <button type="submit">Sign up</button>
+      </div>
     </form>
   );
 };

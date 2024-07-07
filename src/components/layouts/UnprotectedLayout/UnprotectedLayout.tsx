@@ -1,3 +1,4 @@
+import "./UnprotectedLayout.css";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
@@ -17,7 +18,7 @@ export const UnprotectedLayout = () => {
   }
 
   return (
-    <div className="layout-container">
+    <div className="unprotected-layout-container">
       <Outlet />
     </div>
   );

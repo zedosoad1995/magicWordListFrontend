@@ -1,0 +1,16 @@
+.register-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px auto;
+  width: fit-content;
+}
+
+.register-field {
+  display: flex;
+  gap: 8px;
+}
+
+.register-link {
+  font-size: smaller;
+}

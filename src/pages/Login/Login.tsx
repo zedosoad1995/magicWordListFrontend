@@ -1,3 +1,4 @@
+import "./Login.css";
 import { useState } from "react";
 import { login } from "../../api/auth";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,12 +24,13 @@ export const Login = () => {
   };
 
   return (
-    <div>
-      <div>
+    <div className="login-container">
+      <h1>Login</h1>
+      <div className="login-field">
         <label>Email</label>
         <input value={email} onChange={handleChangeEmail} type="email" />
       </div>
-      <div>
+      <div className="login-field">
         <label>Password</label>
         <input
           value={password}
@@ -37,9 +39,13 @@ export const Login = () => {
         />
       </div>
       <div>
-        <Link to={"/register"}>Don't have any account? Sign up here</Link>
+        <Link className="login-link" to={"/register"}>
+          Don't have any account? Sign up here
+        </Link>
       </div>
-      <button onClick={handleClickButton}>Login</button>
+      <div>
+        <button onClick={handleClickButton}>Login</button>
+      </div>
     </div>
   );
 };
