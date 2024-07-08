@@ -59,12 +59,12 @@ const SORT_TYPES: Record<
   NEWEST_OLDEST: {
     name: "newest to oldest",
     sortBy: "created_at",
-    order: "asc",
+    order: "desc",
   },
   OLDEST_NEWEST: {
     name: "oldest to newest",
     sortBy: "created_at",
-    order: "desc",
+    order: "asc",
   },
 } as const;
 
