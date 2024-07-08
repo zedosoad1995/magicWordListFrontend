@@ -1,11 +1,12 @@
 import "./Words.css";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ListOfWords } from "../../components/ListOfWords/ListOfWords";
 import { IWord, IWordSortBy } from "../../types/word";
 import { getWords } from "../../api/words";
 import { useNavigate } from "react-router-dom";
 import { IOrder } from "../../types/query";
 import { useLoadingCallback } from "../../hooks/useLoadingCallback";
+import { debounce } from "lodash";
 
 type SortKeys =
   | "WORDS_A_Z"
@@ -15,7 +16,9 @@ type SortKeys =
   | "RELEVANCE_1_5"
   | "RELEVANCE_5_1"
   | "KNOWLEDGE_1_5"
-  | "KNOWLEDGE_5_1";
+  | "KNOWLEDGE_5_1"
+  | "NEWEST_OLDEST"
+  | "OLDEST_NEWEST";
 
 const SORT_TYPES: Record<
   SortKeys,
@@ -53,6 +56,16 @@ const SORT_TYPES: Record<
     sortBy: "knowledge",
     order: "desc",
   },
+  NEWEST_OLDEST: {
+    name: "newest to oldest",
+    sortBy: "created_at",
+    order: "asc",
+  },
+  OLDEST_NEWEST: {
+    name: "oldest to newest",
+    sortBy: "created_at",
+    order: "desc",
+  },
 } as const;
 
 export const Words = () => {
@@ -61,6 +74,7 @@ export const Words = () => {
   const [words, setWords] = useState<IWord[]>([]);
   const [sortValue, setSortValue] = useState<SortKeys>("WORDS_A_Z");
   const [isLearned, setIsLearned] = useState(false);
+  const [search, setSearch] = useState<string>();
 
   const { callback: handleGetWords, isLoading: isLoadingWords } =
     useLoadingCallback(async () => {
@@ -68,13 +82,14 @@ export const Words = () => {
         sortBy: SORT_TYPES[sortValue].sortBy,
         order: SORT_TYPES[sortValue].order,
         isLearned,
+        search,
       });
       setWords(words);
     });
 
   useEffect(() => {
     handleGetWords();
-  }, [sortValue, isLearned]);
+  }, [sortValue, isLearned, search]);
 
   const handleClickAddWord = () => {
     navigate("/word/add-word", { state: { from: window.location.pathname } });
@@ -97,11 +112,24 @@ export const Words = () => {
     setIsLearned(event.currentTarget.checked);
   };
 
+  const debouncedUpdateSearch = useCallback(
+    debounce(
+      (value: string) => setSearch(value.length ? value : undefined),
+      250
+    ),
+    []
+  );
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedUpdateSearch(event.currentTarget.value);
+  };
+
   return (
     <>
       <h1>Words</h1>
       <button onClick={handleClickAddWord}>Add Word</button>
       <div className="words-filters-container">
+        <input placeholder="search" onChange={handleSearchChange} />
         <div>
           <label className="words-sort-label">Sort</label>
           <select value={sortValue} onChange={handleChangeSort}>

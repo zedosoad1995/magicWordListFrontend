@@ -49,10 +49,12 @@ export type IWordSortBy =
   | "original"
   | "translation"
   | "relevance"
-  | "knowledge";
+  | "knowledge"
+  | "created_at";
 
 export interface IGetWordsQuery {
   sortBy?: IWordSortBy;
   order?: IOrder;
+  search?: string;
   isLearned?: boolean;
 }

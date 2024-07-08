@@ -3,14 +3,15 @@
   flex-direction: row;
   gap: 16px;
   margin-bottom: 4px;
+  margin-top: 4px;
 }
 
 .words-sort-label {
-  margin-right: 8px;
+  margin-right: 4px;
 }
 
 .words-learned-label {
-  margin-right: 4px;
+  margin-right: 2px;
 }
 
 .words-learned-input {
