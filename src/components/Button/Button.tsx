@@ -17,7 +17,7 @@ export const Button = ({
   useEffect(() => {
     if (!ref.current) return;
 
-    setNonLoadingWidth(ref.current.offsetWidth);
+    setNonLoadingWidth(ref.current.getBoundingClientRect().width);
   }, [ref, children]);
 
   return (
