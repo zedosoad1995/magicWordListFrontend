@@ -129,25 +129,31 @@ export const Words = () => {
       <h1>Words</h1>
       <button onClick={handleClickAddWord}>Add Word</button>
       <div className="words-filters-container">
-        <input placeholder="search" onChange={handleSearchChange} />
-        <div>
-          <label className="words-sort-label">Sort</label>
-          <select value={sortValue} onChange={handleChangeSort}>
-            {Object.entries(SORT_TYPES).map(([id, { name }]) => (
-              <option key={id} value={id}>
-                {name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="words-learned-label">Learned words</label>
-          <input
-            type="checkbox"
-            checked={isLearned}
-            onChange={handleClickIsLearnedCheckbox}
-            className="words-learned-input"
-          />
+        <input
+          placeholder="search"
+          onChange={handleSearchChange}
+          className="words-search"
+        />
+        <div className="words-sort-and-learned-container">
+          <div>
+            <label className="words-sort-label">Sort</label>
+            <select value={sortValue} onChange={handleChangeSort}>
+              {Object.entries(SORT_TYPES).map(([id, { name }]) => (
+                <option key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="words-learned-label">Learned</label>
+            <input
+              type="checkbox"
+              checked={isLearned}
+              onChange={handleClickIsLearnedCheckbox}
+              className="words-learned-input"
+            />
+          </div>
         </div>
       </div>
       {isLoadingWords && <div>Loading...</div>}

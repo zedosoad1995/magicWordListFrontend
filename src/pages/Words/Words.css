@@ -1,9 +1,19 @@
 .words-filters-container {
   display: flex;
   flex-direction: row;
-  gap: 16px;
+  flex-wrap: wrap;
   margin-bottom: 4px;
   margin-top: 4px;
+}
+
+.words-sort-and-learned-container {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.words-search {
+  margin-right: 16px;
 }
 
 .words-sort-label {
